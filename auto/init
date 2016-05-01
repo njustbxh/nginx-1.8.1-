@@ -1,0 +1,61 @@
+
+# Copyright (C) Igor Sysoev
+# Copyright (C) Nginx, Inc.
+
+#指定生成的 Makefile文件路径
+NGX_MAKEFILE=$NGX_OBJS/Makefile
+
+#指定nxg_modules.c文件的路径,这个是安装的模块先后顺序
+NGX_MODULES_C=$NGX_OBJS/ngx_modules.c
+
+#头文件定义
+NGX_AUTO_HEADERS_H=$NGX_OBJS/ngx_auto_headers.h
+NGX_AUTO_CONFIG_H=$NGX_OBJS/ngx_auto_config.h
+
+
+NGX_AUTOTEST=$NGX_OBJS/autotest
+
+#执行configure过程中的错误存放文件
+NGX_AUTOCONF_ERR=$NGX_OBJS/autoconf.err
+
+# STUBs
+NGX_ERR=$NGX_OBJS/autoconf.err
+MAKEFILE=$NGX_OBJS/Makefile
+
+
+NGX_PCH=
+NGX_USE_PCH=
+
+
+# check the echo's "-n" option and "\c" capability
+
+if echo "test\c" | grep c >/dev/null; then
+
+    if echo -n test | grep n >/dev/null; then
+        ngx_n=
+        ngx_c=
+
+    else
+        ngx_n=-n
+        ngx_c=
+    fi
+
+else
+    ngx_n=
+    ngx_c='\c'
+fi
+
+
+#下面是创建Makefile文件
+#  cat << END代表读取下面的输入,直到遇到END字符串截止, > Makefile表示输出到这个文件
+# create Makefile
+
+cat << END > Makefile
+
+#Makefile文件的开始
+default:	build
+
+clean:
+	rm -rf Makefile $NGX_OBJS
+#Makefile文件的结束	
+END
